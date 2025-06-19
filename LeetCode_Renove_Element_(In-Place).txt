@@ -1,0 +1,57 @@
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        """
+        Removes all occurrences of 'val' in-place for 'nums' and returns the new length
+
+        Args:
+            nums: A list of integers that will be modified in-place
+            val: The integer value to remove from the list
+
+        Returns:
+            An integer 'k', representing the numner of elements in 'nuns'which are not equal to 'val'. The first 'k' elements of 'nums' will contain these valid elements (order deosn't mattter)
+        """
+
+        # Thought Process: 
+        # THe problem requires an *in-place* modification and allows the order of remaining elements to be changed. This is a classic scenario for two-pointer approach, which ish highly efficient (O(n) tiem complexity)
+
+        # Rationale: 
+        # We'll use one pointer ('k') to keep track of where the next 'valid' element (an element not equal to 'val') should be placed
+        # This point 'k' will also serve as our final count of valid elements
+        # Initialize 'k' to 0, as we start filling the modified array from the beginning
+        k = 0
+
+        # Thought Process:
+        # WE need to iterate through every element of the original 'nums' list
+        # A standaed 'for' loop with an index ('i') is suitable for this
+
+        # Rationale:
+        # The 'i' pointer will traverse the entire array from left to right
+        # For each element 'nums[i]', we wiil decide whether to keep it or discard it
+        for i in range(len(nums)):
+            # Thought Process
+            # The 'i' element 'nums[i]' is *not* the value we want to remove ('val') then it's an element we *want* to keep
+            # Rationale:
+            # This is the core condition. Elements that are not 'val' are 'keepers'
+            if nums[i] != val:
+                # Thought Process:
+                # If 'nums[i]' is a keeper, we need to move it to the current position designated for valid elements, which is 'nums[k]'
+                # Rationale:
+                # We are placing the valid element 'nums[i]' into a slot 'nums[k]'. If 'i' is equal to 'k', this operation effectively does 'num[i]', it means we're moving a valid element forward (potentially overwriting a 'val' that we previously decided to "discard")
+                nums[k] = nums[i]
+
+                # Thought Process:
+                # After placing a valid element, we need to prepare the 'k' pointer for the next valid element
+                # Rationale:
+                # Increment 'k'. This ensures thet 'k' alwasy points to the next availabel position for a non-'val' element and also counts how many such elements we have processed and placed so far
+                k += 1
+
+                # Thought Process:
+                # If 'nums[i]' *is* equal to 'val', we simply *skip* this element
+                # It will eventually be overwritten by a non-'val' element if one is found later, or it will remain in the "unimportant" part of the array beyond the 'k'-th index, which is allowed by the problem statement ("remaining elements...are not important")
+        # Thought Process:
+        # Once the loop has finished, we have iterated throgh all elements in 'nums'
+        # The 'k' pointer now holds the total count of elements that were not equal to 'val' 
+        # These 'k' elements are now at the beginnin of the 'nums' array (indices 0 to k - 1) 
+        # The problem explicitly asks for this count 'k' as the return value
+        # Rationale: This is the final result as per the problems's specification
+        return k
